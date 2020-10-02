@@ -1,0 +1,39 @@
+[
+    {
+      "name": "wordpress",
+      "image": "wordpress",
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "protocol": "tcp",
+          "containerPort": 80
+        }
+      ],
+      "environment": [],
+      "secrets": [
+        {
+            "name": "WORDPRESS_DB_HOST",
+            "valueFrom": "rds-db-endpoint-1"
+        },
+        {
+            "name": "WORDPRESS_DB_NAME",
+            "valueFrom": "rds-db-name-1"
+        },
+        {
+            "name": "WORDPRESS_DB_USER",
+            "valueFrom": "rds-db-user-1"
+        },
+        {
+            "name": "WORDPRESS_DB_PASSWORD",
+            "valueFrom": "rds-db-pass-1"
+        }
+      ],
+      "essential": true,
+      "mountPoints": [
+        {
+          "sourceVolume": "service-storage",
+          "containerPath": "/var/www/html"
+        }
+      ]
+    }
+  ]
