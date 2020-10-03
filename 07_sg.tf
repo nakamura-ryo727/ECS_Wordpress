@@ -18,6 +18,7 @@ resource "aws_security_group" "sg-alb" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
 resource "aws_security_group" "sg-ecs" {
   vpc_id      = aws_vpc.vpc-01.id
   name        = "${var.pj_name["name"]}-sg-ecs"
@@ -38,6 +39,7 @@ resource "aws_security_group" "sg-ecs" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
 resource "aws_security_group" "sg-rds" {
   vpc_id      = aws_vpc.vpc-01.id
   name        = "${var.pj_name["name"]}-sg-rds"
@@ -58,6 +60,7 @@ resource "aws_security_group" "sg-rds" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
 resource "aws_security_group" "sg-efs" {
   vpc_id      = aws_vpc.vpc-01.id
   name        = "${var.pj_name["name"]}-sg-efs"
