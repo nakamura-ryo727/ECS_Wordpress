@@ -1,4 +1,5 @@
 provider "aws" {
-  region                  = "ap-northeast-1"
-  profile                 = ""
+  region  = var.common-AZ["region"]
+  profile = ""
 }
+data "aws_region" "current" {}

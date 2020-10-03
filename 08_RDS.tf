@@ -12,7 +12,7 @@ resource "aws_rds_cluster" "rds-cluster-1" {
   vpc_security_group_ids          = [aws_security_group.sg-rds.id]
   skip_final_snapshot             = "true"
   tags = {
-    Name = "${var.pj_name["name"]}-rds-1"
+    Name = "${var.pj_name["name"]}-rds"
   }
 }
 
@@ -21,13 +21,8 @@ resource "aws_db_subnet_group" "db-subnet-group-1" {
   subnet_ids = [aws_subnet.private-subnet-1.id, aws_subnet.private-subnet-2.id]
 
   tags = {
-    Name = "${var.pj_name["name"]}-subnet-group-1"
+    Name = "${var.pj_name["name"]}-subnet-group"
   }
-}
-
-resource "aws_db_parameter_group" "db-parameter-group-1" {
-  name   = "${var.pj_name["name"]}-pg"
-  family = "mysql5.7"
 }
 
 resource "random_password" "password" {

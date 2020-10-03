@@ -8,6 +8,7 @@ resource "aws_route_table" "vpc-public-rtb" {
         Name = "${var.pj_name["name"]}-public-rtb"
     }
 }
+
 resource "aws_route_table" "vpc-private-rtb" {
     vpc_id = aws_vpc.vpc-01.id
     tags = {

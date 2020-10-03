@@ -12,13 +12,13 @@ resource "aws_ecs_cluster" "ecs-cluster-1" {
     weight            = 1
   }
 }
+
 resource "aws_ecs_task_definition" "task-definition-1" {
   family                   = "${var.pj_name["name"]}-task-1"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = "256"
   memory                   = "1024"
-  container_definitions    = file("task-definitions.json")
   execution_role_arn       = aws_iam_role.role-1.arn
   volume {
     name = "service-storage"
@@ -26,7 +26,57 @@ resource "aws_ecs_task_definition" "task-definition-1" {
       file_system_id     = aws_efs_file_system.efs-file-system-1.id
     }
   }
+    container_definitions = <<DEFINITION
+[
+  {
+    "name": "wordpress",
+    "image": "wordpress",
+    "portMappings": [
+      {
+        "hostPort": 80,
+        "protocol": "tcp",
+        "containerPort": 80
+      }
+    ],
+    "environment": [],
+    "secrets": [
+      {
+          "name": "WORDPRESS_DB_HOST",
+          "valueFrom": "${var.pj_name["name"]}-rds-db-endpoint"
+      },
+      {
+          "name": "WORDPRESS_DB_NAME",
+          "valueFrom": "${var.pj_name["name"]}-rds-db-name"
+      },
+      {
+          "name": "WORDPRESS_DB_USER",
+          "valueFrom": "${var.pj_name["name"]}-rds-db-user"
+      },
+      {
+          "name": "WORDPRESS_DB_PASSWORD",
+          "valueFrom": "${var.pj_name["name"]}-rds-db-pass"
+      }
+    ],
+    "essential": true,
+    "mountPoints": [
+      {
+        "sourceVolume": "service-storage",
+        "containerPath": "/var/www/html"
+      }
+    ],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${var.pj_name["name"]}-ecs-log",
+        "awslogs-region": "${data.aws_region.current.name}",
+        "awslogs-stream-prefix": "wordpress"
+      }
+    }
+  }
+]
+  DEFINITION
 }
+
 resource "aws_ecs_service" "ecs-service-1" {
   name             = "wordpress"
   cluster          = aws_ecs_cluster.ecs-cluster-1.id

@@ -13,7 +13,13 @@ variable "common-AZ" {
     region = "ap-northeast-1"
     az-1   = "ap-northeast-1a"
     az-2   = "ap-northeast-1c"
-    az-3   = "ap-northeast-1d"
+  }
+}
+
+variable "vpc" {
+  type = map
+  default = {
+    cidr-block = "10.0.0.0/24"
   }
 }
 
