@@ -1,7 +1,7 @@
 variable "pj_name" {
   type = map
   default = {
-    name   = ""
+    name   = "hogehoge"
   }
 }
 
