@@ -33,5 +33,5 @@ resource "aws_lb_listener" "lb-listener-1" {
 }
 
 output "alb-dns-name" {
-  value = "${aws_lb.aws-lb-1.dns_name}"
+  value = aws_lb.aws-lb-1.dns_name
 }
