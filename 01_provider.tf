@@ -1,5 +1,4 @@
 provider "aws" {
   region  = var.common-AZ["region"]
-  profile = ""
+  profile = "persol"
 }
-data "aws_region" "current" {}

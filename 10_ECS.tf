@@ -1,5 +1,5 @@
 resource "aws_ecs_cluster" "ecs-cluster-1" {
-  name = "${var.pj_name["name"]}-ecs-cluster-1"
+  name = "${var.pj_name["name"]}-ecs-cluster"
   capacity_providers = ["FARGATE", "FARGATE_SPOT"]
   default_capacity_provider_strategy {
     base              = 0
@@ -14,7 +14,7 @@ resource "aws_ecs_cluster" "ecs-cluster-1" {
 }
 
 resource "aws_ecs_task_definition" "task-definition-1" {
-  family                   = "${var.pj_name["name"]}-task-1"
+  family                   = "${var.pj_name["name"]}-task-definition"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = "256"
@@ -38,7 +38,6 @@ resource "aws_ecs_task_definition" "task-definition-1" {
         "containerPort": 80
       }
     ],
-    "environment": [],
     "secrets": [
       {
           "name": "WORDPRESS_DB_HOST",
@@ -78,7 +77,7 @@ resource "aws_ecs_task_definition" "task-definition-1" {
 }
 
 resource "aws_ecs_service" "ecs-service-1" {
-  name             = "wordpress"
+  name             = "${var.pj_name["name"]}-WordPress"
   cluster          = aws_ecs_cluster.ecs-cluster-1.id
   task_definition  = aws_ecs_task_definition.task-definition-1.arn
   desired_count    = 2
