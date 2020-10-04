@@ -1,9 +1,7 @@
-data "aws_caller_identity" "self" { }
-
 variable "pj_name" {
   type = map
   default = {
-    name   = "test-nakamura"
+    name   = ""
   }
 }
 
@@ -36,3 +34,6 @@ variable "rds-user-1" {
     user   = "wpuser"
   }
 }
+
+data "aws_caller_identity" "self" { }
+data "aws_region" "current" {}

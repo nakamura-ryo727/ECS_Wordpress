@@ -1,5 +1,5 @@
 resource "aws_rds_cluster" "rds-cluster-1" {
-  cluster_identifier              = var.pj_name["name"]
+  cluster_identifier              = "${var.pj_name["name"]}-db"
   engine                          = "aurora-mysql"
   engine_mode                     = "serverless"
   availability_zones              = [var.common-AZ["az-1"], var.common-AZ["az-2"]]
@@ -12,14 +12,13 @@ resource "aws_rds_cluster" "rds-cluster-1" {
   vpc_security_group_ids          = [aws_security_group.sg-rds.id]
   skip_final_snapshot             = "true"
   tags = {
-    Name = "${var.pj_name["name"]}-rds"
+    Name = "${var.pj_name["name"]}-db"
   }
 }
 
 resource "aws_db_subnet_group" "db-subnet-group-1" {
-  name       = "${var.pj_name["name"]}-subnet-group-1"
+  name       = "${var.pj_name["name"]}-subnet-group"
   subnet_ids = [aws_subnet.private-subnet-1.id, aws_subnet.private-subnet-2.id]
-
   tags = {
     Name = "${var.pj_name["name"]}-subnet-group"
   }
